@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -39,6 +40,20 @@ public final class Status {
      */
     public Status(final String value) {
         setStatus(value);
+    }
+
+    /**
+     * constructor for json deserialisation.
+     * 
+     * @param aStatus the status to store.
+     * @param count the reported count.
+     */
+    @JsonCreator
+    public Status(@JsonProperty("status") String aStatus, @JsonProperty("clicks") long clickCount,
+            @JsonProperty("events") long eventCount) {
+        status = aStatus;
+        clicks.set(clickCount);
+        events.set(eventCount);
     }
 
     /**

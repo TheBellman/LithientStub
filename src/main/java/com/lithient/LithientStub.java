@@ -36,6 +36,7 @@ public final class LithientStub {
         options.addOption("?", "help", false, "print this message");
         options.addOption("v", "version", false, "print version");
         options.addOption("p", "port", true, "specify the port to run on (defaults to 8080)");
+        options.addOption("x", "test", true, "execute tests against a given url");
 
         CommandLineParser parser = new PosixParser();
         CommandLine cmd;
@@ -45,6 +46,8 @@ public final class LithientStub {
                 doHelp(options);
             } else if (cmd.hasOption('v')) {
                 doVersion();
+            } else if (cmd.hasOption('x')) {
+                doTest(StringUtils.strip(cmd.getOptionValue('x')));
             } else {
                 int port;
                 if (cmd.hasOption('p')) {
@@ -59,6 +62,11 @@ public final class LithientStub {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private static void doTest(final String url) {
+        Tester instance = new Tester(url);
+        instance.execute();
     }
 
     /**
