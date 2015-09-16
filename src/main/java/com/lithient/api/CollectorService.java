@@ -1,5 +1,6 @@
 package com.lithient.api;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -26,49 +27,53 @@ public final class CollectorService {
     @Path("bulk")
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkGet() {
-        return eventOk();
+        return eventOk(false);
     }
 
     @POST
     @Path("bulk")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkPost() {
-        return eventOk();
+        return eventOk(false);
     }
 
     @GET
     @Path("bulk/v2")
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkV2Get() {
-        return eventOk();
+        return eventOk(false);
     }
 
     @POST
     @Path("bulk/v2")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkV2Post() {
-        return eventOk();
+        return eventOk(false);
     }
 
     @GET
     @Path("bulk/v3")
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkV3Get() {
-        return eventOk();
+        return eventOk(false);
     }
 
     @POST
     @Path("bulk/v3")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkV3Post() {
-        return eventOk();
+        return eventOk(false);
     }
 
     @POST
     @Path("bulk/v4/{appId}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkV4Post(@PathParam("appId") final String appId) {
-        return eventOk();
+        return eventOk(false);
     }
 
     @GET
@@ -80,9 +85,10 @@ public final class CollectorService {
 
     @POST
     @Path("bulk/v4_1/{appId}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
     public Response bulkV41Post(@PathParam("appId") final String appId) {
-        return eventOk();
+        return eventOk(false);
     }
 
     @GET
@@ -99,24 +105,10 @@ public final class CollectorService {
         return clickOk();
     }
 
-    @POST
-    @Path("s2s/playhaven/click")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response s2sPlayhavenPost() {
-        return clickOk();
-    }
-
     @GET
     @Path("s2s/chartboost/click")
     @Produces(MediaType.TEXT_PLAIN)
     public Response s2sChartboostGet() {
-        return clickOk();
-    }
-
-    @POST
-    @Path("s2s/chartboost/click")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response s2sChartboostPost() {
         return clickOk();
     }
 
@@ -127,24 +119,10 @@ public final class CollectorService {
         return clickOk();
     }
 
-    @POST
-    @Path("s2s/tapcommerce/click")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response s2sTapcommercePost() {
-        return clickOk();
-    }
-
     @GET
     @Path("s2s/tapjoy/click")
     @Produces(MediaType.TEXT_PLAIN)
     public Response s2sTapjoyGet() {
-        return clickOk();
-    }
-
-    @POST
-    @Path("s2s/tapjoy/click")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response s2sTapjoyPost() {
         return clickOk();
     }
 
@@ -159,13 +137,6 @@ public final class CollectorService {
     @Path("s2s/startapp/click")
     @Produces(MediaType.TEXT_PLAIN)
     public Response s2sStartAppGet() {
-        return clickOk();
-    }
-
-    @POST
-    @Path("s2s/startapp/click")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response s2sStartAppPost() {
         return clickOk();
     }
 
@@ -185,6 +156,7 @@ public final class CollectorService {
 
     @POST
     @Path("collect/write")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response cookieReadPost() {
         return clickOk();
@@ -199,6 +171,7 @@ public final class CollectorService {
 
     @POST
     @Path("s")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response clickPost() {
         return clickOk();
@@ -206,14 +179,14 @@ public final class CollectorService {
 
     @GET
     @Path("config/sdk/{appId}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sdkConfig(@PathParam("appId") final String appId) {
         return notFound();
     }
 
     @GET
     @Path("config/sdk/{appId}/{locale}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response sdkConfig(@PathParam("appId") final String appId, @PathParam("locale") final String locale) {
         return notFound();
     }
@@ -234,6 +207,7 @@ public final class CollectorService {
 
     @POST
     @Path("fingerprint/sdk/{appId}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response fingerprint(@PathParam("appId") final String appId) {
         return Response.noContent().type(MediaType.TEXT_PLAIN).build();
@@ -241,6 +215,7 @@ public final class CollectorService {
 
     @POST
     @Path("fingerprint/v2/sdk/{appId}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response fingerprintV2(@PathParam("appId") final String appId) {
         return Response.noContent().type(MediaType.TEXT_PLAIN).build();
@@ -255,9 +230,13 @@ public final class CollectorService {
         return Response.status(Response.Status.BAD_REQUEST).type(MediaType.TEXT_PLAIN).build();
     }
 
-    private Response eventOk() {
+    private Response eventOk(final boolean asJson) {
         ControllerHolder.getController().getStatus().addEvent();
-        return Response.ok(MESSAGE).type(MediaType.TEXT_PLAIN).build();
+        if (asJson) {
+            return Response.ok("{\"message\":" + MESSAGE + "\"}").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.ok(MESSAGE).type(MediaType.TEXT_PLAIN).build();
+        }
     }
 
     private Response clickOk() {

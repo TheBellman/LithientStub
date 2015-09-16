@@ -36,7 +36,8 @@ public final class LithientStub {
         options.addOption("?", "help", false, "print this message");
         options.addOption("v", "version", false, "print version");
         options.addOption("p", "port", true, "specify the port to run on (defaults to 8080)");
-        options.addOption("x", "test", true, "execute tests against a given url");
+        options.addOption("t", "test", true, "execute tests against a given url");
+        options.addOption("x", "debug", false, "turn on debug mode for test");
 
         CommandLineParser parser = new PosixParser();
         CommandLine cmd;
@@ -46,8 +47,8 @@ public final class LithientStub {
                 doHelp(options);
             } else if (cmd.hasOption('v')) {
                 doVersion();
-            } else if (cmd.hasOption('x')) {
-                doTest(StringUtils.strip(cmd.getOptionValue('x')));
+            } else if (cmd.hasOption('t')) {
+                doTest(StringUtils.strip(cmd.getOptionValue('t')), cmd.hasOption('x'));
             } else {
                 int port;
                 if (cmd.hasOption('p')) {
@@ -64,8 +65,14 @@ public final class LithientStub {
         }
     }
 
-    private static void doTest(final String url) {
-        Tester instance = new Tester(url);
+    /**
+     * run tests.
+     * 
+     * @param url the target URL, which is assumed to be a useful and meaningful URL.
+     * @param debug if true, test will do a trace of requests and responses.
+     */
+    private static void doTest(final String url, final boolean debug) {
+        Tester instance = new Tester(url, debug);
         instance.execute();
     }
 
