@@ -3,11 +3,12 @@ A very simple jax-rs based server, using an embedded Jetty, which simply absorbs
 
 ## Usage
 ```
- Usage: LithientStub
  -?,--help         print this message
  -p,--port <arg>   specify the port to run on (defaults to 8080)
+ -t,--test <arg>   execute tests against a given url
  -v,--version      print version
- ```
+ -x,--debug        turn on debug mode for test
+```
 
 When running logs will be written under `logs` in the current working directory. These logs will automatically roll over as required, and no more than 100Mb of logs will be written. The logs include a status message emitted every minute which reports the number of SDK events and Click events absorbed since start up, and the rate per minute being handled.
 
