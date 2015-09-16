@@ -17,7 +17,6 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.joda.time.DateTimeConstants;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
@@ -49,7 +48,6 @@ public final class Tester {
     public Tester(final String url, final boolean debug) {
         final JacksonJsonProvider jacksonJsonProvider = new JacksonJaxbJsonProvider()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        jacksonJsonProvider.setMapper(new JodaMapper());
 
         ClientConfig cc = new ClientConfig(jacksonJsonProvider).register(JacksonFeature.class)
                 .property(ClientProperties.CONNECT_TIMEOUT, Integer.toString(5000))
@@ -94,14 +92,12 @@ public final class Tester {
         System.out.println("Start testing sendEvents()");
         final long startTime = System.currentTimeMillis();
         for (int i = 0; i < LOOPS; i++) {
-
-            Response response = baseTarget.path("/ProjectXCollector/bulk/v4").path(Integer.toString(i)).request(MediaType.TEXT_PLAIN)
-                    .post(Entity.entity(Integer.toString(i), MediaType.APPLICATION_OCTET_STREAM));
-            String result = parseResponse(response, String.class);
+            String result = postStringToTarget(String.class, baseTarget.path("/ProjectXCollector/bulk/v4").path(Integer.toString(i)),
+                    Integer.toString(i), MediaType.TEXT_PLAIN);
             Validate.notNull(result);
         }
         long delta = System.currentTimeMillis() - startTime;
-        System.out.println(String.format("Elapsed = %s ms, clicks per minute = %d", NumberFormat.getInstance().format(delta),
+        System.out.println(String.format("Elapsed = %s ms, events per minute = %d", NumberFormat.getInstance().format(delta),
                 DateTimeConstants.MILLIS_PER_MINUTE / (delta / LOOPS)));
 
     }
@@ -116,24 +112,24 @@ public final class Tester {
     }
 
     /**
-     * post an object to a web target, and deal with the result.
+     * post an object to a web target, and deal with the result. Note this is hard-wired to send application/octet-stream as content.
      * 
      * @param returnType the type of data returned from the call.
      * @param target the target of the call.
      * @param payLoad the object to serialise and post.
+     * @param contentType the content-type of the request.
      * @param T the type of object we are returning.
      * @return the response object if it can be found and deserialised, or null otherwise
      */
-    // private <T> T postObjectToTarget(final String testMethod, final Class<T> returnType, final WebTarget target, final Object payLoad) {
-    // try {
-    //
-    // Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.json(payLoad));
-    // return parseResponse(testMethod, response, returnType);
-    // } catch (Exception ex) {
-    // System.out.println(testMethod + "() serious failure: " + ex.getMessage());
-    // return null;
-    // }
-    // }
+    private <T> T postStringToTarget(final Class<T> returnType, final WebTarget target, final String payLoad, final String contentType) {
+        try {
+            Response response = target.request(contentType).post(Entity.entity(payLoad, MediaType.APPLICATION_OCTET_STREAM));
+            return parseResponse(response, returnType);
+        } catch (Exception ex) {
+            System.out.println("serious failure: " + ex.getMessage());
+            return null;
+        }
+    }
 
     /**
      * fetch an object from the web target by making the call and deserialising the result.
