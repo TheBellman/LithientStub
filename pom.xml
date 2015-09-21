@@ -22,6 +22,25 @@
         <maven>3.1.1</maven>
     </prerequisites>
 
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>ip-172-31-6-67-releases</name>
+            <url>http://54.209.160.169:8081/artifactory/libs-release-local</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>ip-172-31-6-67-snapshots</name>
+            <url>http://54.209.160.169:8081/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+
+        <site>
+            <id>devtools-web.infra.somodigital.com</id>
+            <url>file:/srv/devtools-web/apptimiser</url>
+        </site>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
