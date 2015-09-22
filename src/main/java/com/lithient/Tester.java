@@ -77,12 +77,17 @@ public final class Tester {
         System.out.println("Start testing sendClicks()");
         final long startTime = System.currentTimeMillis();
         for (int i = 0; i < LOOPS; i++) {
-            String result = fetchObjectFromTarget(String.class, baseTarget.path("/ProjectXCollector/s"), MediaType.TEXT_PLAIN);
+            String result = fetchObjectFromTarget(String.class,
+                    baseTarget.path("/ProjectXCollector/s").queryParam("s", Integer.toString(i)), MediaType.TEXT_PLAIN);
             Validate.notNull(result);
         }
+
         long delta = System.currentTimeMillis() - startTime;
-        System.out.println(String.format("Elapsed = %s ms, clicks per minute = %d", NumberFormat.getInstance().format(delta),
-                DateTimeConstants.MILLIS_PER_MINUTE / (delta / LOOPS)));
+
+        System.out.println(String.format("Elapsed = %s ms", NumberFormat.getInstance().format(delta)));
+        if ((delta / LOOPS) > 0) {
+            System.out.println(String.format("clicks per minute = %d", DateTimeConstants.MILLIS_PER_MINUTE / (delta / LOOPS)));
+        }
     }
 
     /**
@@ -96,10 +101,13 @@ public final class Tester {
                     Integer.toString(i), MediaType.TEXT_PLAIN);
             Validate.notNull(result);
         }
-        long delta = System.currentTimeMillis() - startTime;
-        System.out.println(String.format("Elapsed = %s ms, events per minute = %d", NumberFormat.getInstance().format(delta),
-                DateTimeConstants.MILLIS_PER_MINUTE / (delta / LOOPS)));
 
+        long delta = System.currentTimeMillis() - startTime;
+
+        System.out.println(String.format("Elapsed = %s ms", NumberFormat.getInstance().format(delta)));
+        if ((delta / LOOPS) > 0) {
+            System.out.println(String.format("events per minute = %d", DateTimeConstants.MILLIS_PER_MINUTE / (delta / LOOPS)));
+        }
     }
 
     /**
