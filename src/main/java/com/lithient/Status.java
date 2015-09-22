@@ -46,7 +46,8 @@ public final class Status {
      * constructor for json deserialisation.
      * 
      * @param aStatus the status to store.
-     * @param count the reported count.
+     * @param clickCount the reported count of clicks.
+     * @param eventCount the reported count of events.
      */
     @JsonCreator
     public Status(@JsonProperty("status") String aStatus, @JsonProperty("clicks") long clickCount,
