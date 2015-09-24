@@ -36,7 +36,7 @@ public final class Status {
     /**
      * primary constructor.
      * 
-     * @param value
+     * @param value a status string to start with.
      */
     public Status(final String value) {
         setStatus(value);
@@ -50,8 +50,8 @@ public final class Status {
      * @param eventCount the reported count of events.
      */
     @JsonCreator
-    public Status(@JsonProperty("status") String aStatus, @JsonProperty("clicks") long clickCount,
-            @JsonProperty("events") long eventCount) {
+    public Status(@JsonProperty("status") final String aStatus, @JsonProperty("clicks") final long clickCount,
+            @JsonProperty("events") final long eventCount) {
         status = aStatus;
         clicks.set(clickCount);
         events.set(eventCount);

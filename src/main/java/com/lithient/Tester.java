@@ -27,9 +27,13 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
  */
 public final class Tester {
     /**
+     * connect and read timeout in milliseconds.
+     */
+    private static final int TIMEOUT_MS = 5000;
+    /**
      * the number of iterations to run repeated tests over.
      */
-    private final static int LOOPS = 1000;
+    private static final int LOOPS = 1000;
     /**
      * the Jersey client being used.
      */
@@ -50,8 +54,8 @@ public final class Tester {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         ClientConfig cc = new ClientConfig(jacksonJsonProvider).register(JacksonFeature.class)
-                .property(ClientProperties.CONNECT_TIMEOUT, Integer.toString(5000))
-                .property(ClientProperties.READ_TIMEOUT, Integer.toString(5000));
+                .property(ClientProperties.CONNECT_TIMEOUT, Integer.toString(TIMEOUT_MS))
+                .property(ClientProperties.READ_TIMEOUT, Integer.toString(TIMEOUT_MS));
 
         client = ClientBuilder.newClient(cc);
         if (debug) {
@@ -126,7 +130,7 @@ public final class Tester {
      * @param target the target of the call.
      * @param payLoad the object to serialise and post.
      * @param contentType the content-type of the request.
-     * @param T the type of object we are returning.
+     * @param <T> the type of object we are returning.
      * @return the response object if it can be found and deserialised, or null otherwise
      */
     private <T> T postStringToTarget(final Class<T> returnType, final WebTarget target, final String payLoad, final String contentType) {
@@ -145,7 +149,7 @@ public final class Tester {
      * @param returnType the type of object the call should return.
      * @param target the target of the call.
      * @param contentType the content-type of the request.
-     * @param T the type of object we are returning.
+     * @param <T> the type of object we are returning.
      * @return the object, if it can be found and deserialised, or null otherwise.
      */
     private <T> T fetchObjectFromTarget(final Class<T> returnType, final WebTarget target, final String contentType) {
@@ -163,10 +167,11 @@ public final class Tester {
      * 
      * @param response the response being parsed
      * @param returnType the type of object the call should return.
+     * @param <T> the type of object we are returning.
      * @return the object it if can be deserialised from the response, null otherwise.
      */
     private <T> T parseResponse(final Response response, final Class<T> returnType) {
-        if (response.getStatus() == 200) {
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             T object = response.readEntity(returnType);
             return object;
         } else {
