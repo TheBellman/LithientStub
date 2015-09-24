@@ -27,11 +27,18 @@ public final class LithientStub {
     private static final Properties PROPERTIES = loadProperties();
 
     /**
+     * private constructor to prevent instantiation.
+     */
+    private LithientStub() {
+
+    }
+
+    /**
      * main entry point.
      * 
      * @param args the command line arguments.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Options options = new Options();
         options.addOption("?", "help", false, "print this message");
         options.addOption("v", "version", false, "print version");
@@ -52,9 +59,9 @@ public final class LithientStub {
             } else {
                 int port;
                 if (cmd.hasOption('p')) {
-                    port = NumberUtils.toInt(StringUtils.strip(cmd.getOptionValue('p')), 8080);
+                    port = NumberUtils.toInt(StringUtils.strip(cmd.getOptionValue('p')), JettyServer.PORT);
                 } else {
-                    port = 8080;
+                    port = JettyServer.PORT;
                 }
                 executeServer(port);
             }
@@ -80,6 +87,7 @@ public final class LithientStub {
      * run the server instance. Note that this is a blocking call - we disappear into the jetty server until
      * the JVM is halted.
      * 
+     * @param port the port to listen on.
      * @throws IOException if we cannot read resources
      */
     private static void executeServer(final int port) throws IOException {
