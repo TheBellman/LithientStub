@@ -24,6 +24,18 @@ public final class CollectorService {
     private static final String MESSAGE = "The Lithient service no longer exists. Please visit http://somoglobal.com for information\n";
 
     /**
+     * provide ELB heartbeat end point.
+     * 
+     * @return a non-null response.
+     */
+    @GET
+    @Path("status")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response status() {
+        return eventOk(false);
+    }
+
+    /**
      * handle GET to /bulk endpoint.
      * 
      * @return a non-null response.
