@@ -50,13 +50,14 @@ public final class CollectorService {
     /**
      * handle POST to /bulk endpoint.
      * 
+     * @param body the submitted body
      * @return a non-null response.
      */
     @POST
     @Path("bulk")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
-    public Response bulkPost() {
+    public Response bulkPost(final String body) {
         return eventOk(false);
     }
 
@@ -75,13 +76,14 @@ public final class CollectorService {
     /**
      * handle POST to /bulk/v2 endpoint.
      * 
+     * @param body the submitted body
      * @return a non-null response.
      */
     @POST
     @Path("bulk/v2")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
-    public Response bulkV2Post() {
+    public Response bulkV2Post(final String body) {
         return eventOk(false);
     }
 
@@ -100,19 +102,21 @@ public final class CollectorService {
     /**
      * handle POST to /bulk/v2 endpoint.
      * 
+     * @param body the submitted body
      * @return a non-null response.
      */
     @POST
     @Path("bulk/v3")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
-    public Response bulkV3Post() {
+    public Response bulkV3Post(final String body) {
         return eventOk(false);
     }
 
     /**
      * handle POST to /bulk/v4 endpoint.
      * 
+     * @param body the submitted body
      * @param appId the lithient application ID.
      * @return a non-null response.
      */
@@ -120,7 +124,7 @@ public final class CollectorService {
     @Path("bulk/v4/{appId}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
-    public Response bulkV4Post(@PathParam("appId") final String appId) {
+    public Response bulkV4Post(@PathParam("appId") final String appId, final String body) {
         return eventOk(false);
     }
 
@@ -140,6 +144,7 @@ public final class CollectorService {
     /**
      * handle POST to /bulk/v4_1 endpoint.
      * 
+     * @param body the submitted body
      * @param appId the lithient application ID.
      * @return a non-null response.
      */
@@ -147,7 +152,7 @@ public final class CollectorService {
     @Path("bulk/v4_1/{appId}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_OCTET_STREAM})
     @Produces(MediaType.TEXT_PLAIN)
-    public Response bulkV41Post(@PathParam("appId") final String appId) {
+    public Response bulkV41Post(@PathParam("appId") final String appId, final String body) {
         return eventOk(false);
     }
 
@@ -263,13 +268,14 @@ public final class CollectorService {
     /**
      * handles POST to "/collect/write" end point.
      * 
+     * @param body the submitted body
      * @return a non-null response.
      */
     @POST
     @Path("collect/write")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response cookieReadPost() {
+    public Response cookieReadPost(final String body) {
         return clickOk();
     }
 
@@ -288,13 +294,14 @@ public final class CollectorService {
     /**
      * handles POST to "/s" end point.
      * 
+     * @param body the submitted body
      * @return a non-null response.
      */
     @POST
     @Path("s")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response clickPost() {
+    public Response clickPost(final String body) {
         return clickOk();
     }
 
@@ -352,6 +359,7 @@ public final class CollectorService {
     /**
      * handle POST to "/fingerprint/sdk" end point.
      * 
+     * @param body the submitted body
      * @param appId the lithient application id.
      * @return a non-null response.
      */
@@ -359,13 +367,14 @@ public final class CollectorService {
     @Path("fingerprint/sdk/{appId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response fingerprint(@PathParam("appId") final String appId) {
+    public Response fingerprint(@PathParam("appId") final String appId, final String body) {
         return Response.noContent().type(MediaType.TEXT_PLAIN).build();
     }
 
     /**
      * handle POST to "/fingerprint/v2/sdk" end point.
      * 
+     * @param body the submitted body
      * @param appId the lithient application id.
      * @return a non-null response.
      */
@@ -373,7 +382,7 @@ public final class CollectorService {
     @Path("fingerprint/v2/sdk/{appId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response fingerprintV2(@PathParam("appId") final String appId) {
+    public Response fingerprintV2(@PathParam("appId") final String appId, final String body) {
         return Response.noContent().type(MediaType.TEXT_PLAIN).build();
     }
 
