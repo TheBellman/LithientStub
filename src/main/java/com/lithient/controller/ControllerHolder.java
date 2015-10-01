@@ -11,7 +11,14 @@ public final class ControllerHolder {
     /**
      * container for the Controller.
      */
-    private static final AtomicReference<Controller> holder = new AtomicReference<>();
+    private static final AtomicReference<Controller> HOLDER = new AtomicReference<>();
+
+    /**
+     * private constructor to prevent instantiation.
+     */
+    private ControllerHolder() {
+
+    }
 
     /**
      * inject a controller exactly once. subsequent calls with a non-null controller are ignored.
@@ -20,7 +27,7 @@ public final class ControllerHolder {
      */
     public static void setController(final Controller controller) {
         if (controller != null) {
-            holder.compareAndSet(null, controller);
+            HOLDER.compareAndSet(null, controller);
         }
     }
 
@@ -30,13 +37,13 @@ public final class ControllerHolder {
      * @return the controller.
      */
     public static Controller getController() {
-        return holder.get();
+        return HOLDER.get();
     }
 
     /**
      * force the current holder to reset to empty. This is mainly for testing.
      */
     public static void reset() {
-        holder.set(null);
+        HOLDER.set(null);
     }
 }

@@ -21,7 +21,15 @@ import com.lithient.api.LithientStubApp;
  */
 public final class JettyServer {
     /**
-     * the port we will run on
+     * number of days to retain access logs.
+     */
+    private static final int LOG_RETAIN_DAYS = 14;
+    /**
+     * default port.
+     */
+    public static final int PORT = 8080;
+    /**
+     * the port we will run on.
      */
     private final int port;
 
@@ -29,16 +37,16 @@ public final class JettyServer {
      * default constructor.
      */
     public JettyServer() {
-        port = 8080;
+        port = PORT;
     }
 
     /**
      * construct to use a specified port.
      * 
-     * @param port the port to specify, assumed but not required to be a useful number.
+     * @param value the port to specify, assumed but not required to be a useful number.
      */
-    public JettyServer(final int port) {
-        this.port = port;
+    public JettyServer(final int value) {
+        port = value;
     }
 
     /**
@@ -74,7 +82,7 @@ public final class JettyServer {
         NCSARequestLog requestLog = new NCSARequestLog();
         requestLog.setFilename("logs/yyyy_mm_dd.request.log");
         requestLog.setFilenameDateFormat("yyyy_MM_dd");
-        requestLog.setRetainDays(14);
+        requestLog.setRetainDays(LOG_RETAIN_DAYS);
         requestLog.setAppend(true);
         requestLog.setExtended(true);
         requestLog.setLogCookies(false);
